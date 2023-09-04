@@ -88,6 +88,9 @@ func createVectorData(cfg GlobalConfig) {
 	createdIndexEndpointName, _ := createMatchingEngineIndexEndpoint(location, project, indexEndpointName, true)
 
 	writeIndexNamesConfig(indexName, createdIndexEndpointName)
+
+	fmt.Println("Done! Visit https://console.cloud.google.com/vertex-ai/matching-engine/indexes?project=" + project + " to see the progress of creating index. It should take about 1.5 hours to create index.")
+	fmt.Println("After creating the index, run this program again and proceed to 2. Deploy Index to Index Endpoint.")
 }
 
 func deployIndex(cfg GlobalConfig) {
@@ -99,6 +102,9 @@ func deployIndex(cfg GlobalConfig) {
 	indexName, indexEndpointID := readIndexNamesConfig()
 	fmt.Println("Deploying Index...")
 	deployIndexToEndpoint(project, location, deployedIndexName, indexName, indexEndpointID, machineType)
+
+	fmt.Println("Done! Visit https://console.cloud.google.com/vertex-ai/locations/us-central1/index-endpoints/" + indexEndpointID + "?project=" + project + " to see the progress of deploying index to index endpoint. It should take about 40 min to 1 hour to deploy.")
+	fmt.Println("After deploying the index to index endpoint, run this program again and proceed to 3. Get deployed Index Endpoint endpoint URL.")
 }
 
 func getEndpointURL(cfg GlobalConfig) {
@@ -108,6 +114,8 @@ func getEndpointURL(cfg GlobalConfig) {
 	_, indexEndpointID := readIndexNamesConfig()
 	endpointURL := getDeployedIndexEndpointURL(project, location, indexEndpointID)
 	writeDeployedIndexEndpointURL(endpointURL)
+
+	fmt.Println("Done! Please run this program again and proceed to 4. Search images using text.")
 }
 
 func getSearchResult(cfg GlobalConfig) {
