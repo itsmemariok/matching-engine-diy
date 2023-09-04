@@ -1,0 +1,7 @@
+project = ''
+projectnumber = ''
+location = ''
+bucket = ''
+indexentrypointname = 'entrypoint-testing'
+deployedindexname = 'deployed_index'
+indexmachinetype = 'e2-standard-2'

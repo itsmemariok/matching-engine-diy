@@ -1,0 +1,7 @@
+embedding-image
+credential.json
+config.toml
+indexnames.toml
+items.json
+*.db
+.DS_Store
