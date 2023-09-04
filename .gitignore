@@ -5,3 +5,4 @@ indexnames.toml
 items.json
 *.db
 .DS_Store
+*.bak
