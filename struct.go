@@ -170,11 +170,11 @@ type NearestNeighborsResponse struct {
 }
 
 type GlobalConfig struct {
-	Project             string `toml:"project"`
-	ProjectNumber       string `toml:"projectnumber"`
-	Location            string `toml:"location"`
-	Bucket              string `toml:"bucket"`
-	IndexMachineType    string `toml:"indexmachinetype"`
-	IndexEntrypointName string `toml:"indexentrypointname"`
-	DeployedIndexName   string `toml:"deployedindexname"`
+	Project           string `toml:"project"`
+	ProjectNumber     string `toml:"projectnumber"`
+	Location          string `toml:"location"`
+	Bucket            string `toml:"bucket"`
+	IndexMachineType  string `toml:"indexmachinetype"`
+	IndexEndpointName string `toml:"indexendpointname"`
+	DeployedIndexName string `toml:"deployedindexname"`
 }

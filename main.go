@@ -42,7 +42,7 @@ func createVectorData(cfg GlobalConfig) {
 	project := cfg.Project
 	bucket := cfg.Bucket
 	location := cfg.Location
-	indexEntrypointName := cfg.IndexEntrypointName
+	indexEndpointName := cfg.IndexEndpointName
 
 	fmt.Println("Getting GCS files list...")
 	objNames, err := listGCSFiles(bucket)
@@ -85,9 +85,9 @@ func createVectorData(cfg GlobalConfig) {
 	indexName, _ := createMatchingEngineIndex(bucket, project, location)
 
 	fmt.Println("creating Index Entrypoint...")
-	indexEndpointName, _ := createMatchingEngineIndexEndpoint(location, project, indexEntrypointName, true)
+	createdIndexEndpointName, _ := createMatchingEngineIndexEndpoint(location, project, indexEndpointName, true)
 
-	writeIndexNamesConfig(indexName, indexEndpointName)
+	writeIndexNamesConfig(indexName, createdIndexEndpointName)
 }
 
 func deployIndex(cfg GlobalConfig) {

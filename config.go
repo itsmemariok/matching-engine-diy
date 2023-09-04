@@ -7,23 +7,22 @@ import (
 	"github.com/spf13/viper"
 )
 
-func writeIndexNamesConfig(indexName, indexEntrypointName string) {
-	viper.SetConfigName("indexnames.toml")
+func writeIndexNamesConfig(indexName, createdIndexEndpointName string) {
+	viper.SetConfigName("config.toml")
 	viper.SetConfigType("toml")
 	viper.AddConfigPath(".")
 
 	viper.SetDefault("indexName", indexName)
-	viper.SetDefault("indexEntrypointName", indexEntrypointName)
 
 	parts := strings.Split(indexName, "/")
 	indexID := parts[len(parts)-1]
 
 	viper.SetDefault("indexid", indexID)
 
-	parts = strings.Split(indexEntrypointName, "/")
-	indexEntrypointID := parts[len(parts)-1]
+	parts = strings.Split(createdIndexEndpointName, "/")
+	indexEndpointID := parts[len(parts)-1]
 
-	viper.SetDefault("indexentrypointid", indexEntrypointID)
+	viper.SetDefault("indexendpointid", indexEndpointID)
 
 	err := viper.WriteConfig()
 	if err != nil {
@@ -32,18 +31,18 @@ func writeIndexNamesConfig(indexName, indexEntrypointName string) {
 }
 
 func readIndexNamesConfig() (string, string) {
-	viper.SetConfigName("indexnames.toml")
+	viper.SetConfigName("config.toml")
 	viper.SetConfigType("toml")
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
-	return viper.GetString("indexName"), viper.GetString("indexentrypointid")
+	return viper.GetString("indexName"), viper.GetString("indexendpointid")
 }
 
 func writeDeployedIndexEndpointURL(url string) {
-	viper.SetConfigName("indexnames.toml")
+	viper.SetConfigName("config.toml")
 	viper.SetConfigType("toml")
 	viper.AddConfigPath(".")
 
@@ -56,7 +55,7 @@ func writeDeployedIndexEndpointURL(url string) {
 }
 
 func readDeployedIndexEndpointURL() string {
-	viper.SetConfigName("indexnames.toml")
+	viper.SetConfigName("config.toml")
 	viper.SetConfigType("toml")
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
