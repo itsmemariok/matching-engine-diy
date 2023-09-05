@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io"
+	"strings"
 
 	"cloud.google.com/go/storage"
 	"google.golang.org/api/iterator"
@@ -98,6 +99,44 @@ func uploadBytesToGCS(bucketName, dstFilename string, data []byte) error {
 	}
 	if err := wc.Close(); err != nil {
 		return fmt.Errorf("Failed to close GCS writer: %v", err)
+	}
+
+	return nil
+}
+
+func deleteGCSFolder(bucketName, folderName string) error {
+	ctx := context.Background()
+
+	client, err := storage.NewClient(ctx)
+	if err != nil {
+		return err
+	}
+	defer client.Close()
+
+	bucket := client.Bucket(bucketName)
+
+	// Get an iterator over all objects in the bucket.
+	it := bucket.Objects(ctx, nil)
+
+	// Delete all objects in the folder.
+	for {
+		objAttrs, err := it.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		if strings.HasPrefix(objAttrs.Name, folderName+"/") {
+			if err := bucket.Object(objAttrs.Name).Delete(ctx); err != nil {
+				return err
+			}
+		}
+	}
+
+	// Delete the folder itself.
+	if err := bucket.Object(folderName + "/").Delete(ctx); err != nil {
+		return err
 	}
 
 	return nil

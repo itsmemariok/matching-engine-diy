@@ -89,3 +89,17 @@ func resizeImage(data []byte) []byte {
 	}
 	return data
 }
+
+func deleteLocalFile(path string) {
+	if fileExists(path) {
+		err := os.Remove(path)
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
+func fileExists(filePath string) bool {
+	_, err := os.Stat(filePath)
+	return !os.IsNotExist(err)
+}

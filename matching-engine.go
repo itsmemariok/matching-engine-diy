@@ -282,3 +282,65 @@ func search(endpointURL, indexEndpointID, deployedIndexID, projectNumber, locati
 	return nil
 
 }
+
+func deleteIndexEndpoint(project, location, indexEndpointID string) error {
+	// Create the HTTP request.
+	url := "https://" + location + "-aiplatform.googleapis.com/v1/projects/" + project + "/locations/" + location + "/indexEndpoints/" + indexEndpointID
+	req, err := http.NewRequest(http.MethodDelete, url, nil)
+	if err != nil {
+		panic(err)
+	}
+	token := getBearerToken()
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("Content-Type", "application/json; charset=utf-8")
+
+	// Send the HTTP request and print the response.
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		var res map[string]interface{}
+		err = json.NewDecoder(resp.Body).Decode(&res)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(res)
+		return err
+	}
+	return nil
+}
+
+func deleteIndex(project, location, indexID string) error {
+	// Create the HTTP request.
+	url := "https://" + location + "-aiplatform.googleapis.com/v1/projects/" + project + "/locations/" + location + "/indexes/" + indexID
+	req, err := http.NewRequest(http.MethodDelete, url, nil)
+	if err != nil {
+		panic(err)
+	}
+	token := getBearerToken()
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("Content-Type", "application/json; charset=utf-8")
+
+	// Send the HTTP request and print the response.
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		var res map[string]interface{}
+		err = json.NewDecoder(resp.Body).Decode(&res)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(res)
+		return err
+	}
+	return nil
+}

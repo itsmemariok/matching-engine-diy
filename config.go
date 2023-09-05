@@ -30,6 +30,17 @@ func writeIndexNamesConfig(indexName, createdIndexEndpointName string) {
 	}
 }
 
+func readIndexIDConfig() string {
+	viper.SetConfigName("config.toml")
+	viper.SetConfigType("toml")
+	viper.AddConfigPath(".")
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
+	return viper.GetString("indexid")
+}
+
 func readIndexNamesConfig() (string, string) {
 	viper.SetConfigName("config.toml")
 	viper.SetConfigType("toml")
@@ -82,4 +93,21 @@ func readConfig() GlobalConfig {
 	}
 
 	return cfg
+}
+
+func cleanUpConfig() {
+	viper.SetConfigName("config.toml")
+	viper.SetConfigType("toml")
+	viper.AddConfigPath(".")
+
+	viper.SetDefault("indexName", "")
+	viper.SetDefault("indexid", "")
+	viper.SetDefault("indexendpointid", "")
+	viper.SetDefault("deployedIndexEndpointURL", "")
+	viper.SetDefault("deployedindexname", "")
+
+	err := viper.WriteConfig()
+	if err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
 }

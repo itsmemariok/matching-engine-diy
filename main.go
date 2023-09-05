@@ -15,11 +15,12 @@ func main() {
 	fmt.Println("2. Deploy Index to Index Endpoint")
 	fmt.Println("3. Get deployed Index Endpoint endpoint URL")
 	fmt.Println("4. Search images using text")
+	fmt.Println("5. Clean up all resources and configs")
 	fmt.Println("")
 	fmt.Print("Your choice?: ")
 	fmt.Scan(&str)
 	fmt.Println("")
-	if str != "1" && str != "2" && str != "3" && str != "4" {
+	if str != "1" && str != "2" && str != "3" && str != "4" && str != "5" {
 		fmt.Println("Invalid input")
 		return
 	}
@@ -34,6 +35,9 @@ func main() {
 	}
 	if str == "4" {
 		getSearchResult(cfg)
+	}
+	if str == "5" {
+		cleanup(cfg)
 	}
 	return
 }
@@ -137,4 +141,28 @@ func getSearchResult(cfg GlobalConfig) {
 	textVector, _ := getTextVector(project, text)
 
 	search(endpointURL, indexEndpointID, deployedIndexname, projectNumber, location, textVector)
+}
+
+func cleanup(cfg GlobalConfig) {
+	project := cfg.Project
+	location := cfg.Location
+	bucket := cfg.Bucket
+	folder := "jsonl"
+
+	fmt.Println("Deleting Index Endpoint...")
+	_, indexEndpointID := readIndexNamesConfig()
+	deleteIndexEndpoint(project, location, indexEndpointID)
+
+	fmt.Println("Deleting Index...")
+	indexID := readIndexIDConfig()
+	deleteIndex(project, location, indexID)
+
+	fmt.Println("Cleaning up files...")
+	deleteGCSFolder(bucket, folder)
+	deleteLocalFile("items.db")
+
+	fmt.Println("Cleaning up configs...")
+	cleanUpConfig()
+
+	fmt.Println("Clean up done!")
 }
