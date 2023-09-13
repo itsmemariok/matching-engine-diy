@@ -62,7 +62,7 @@ func createVectorData(cfg GlobalConfig) {
 	fmt.Println("Generating Embedding...")
 	var items []Item
 	for _, objName := range objNames {
-		if !strings.Contains(objName, ".jpg") {
+		if !strings.Contains(objName, ".jpg") && !strings.Contains(objName, ".JPG") && !strings.Contains(objName, ".JPEG") && !strings.Contains(objName, ".jpeg") {
 			fmt.Println("Skipping: " + objName)
 			continue
 		}
@@ -93,6 +93,7 @@ func createVectorData(cfg GlobalConfig) {
 
 	writeIndexNamesConfig(indexName, createdIndexEndpointName)
 
+	fmt.Println("")
 	fmt.Println("Done! Visit https://console.cloud.google.com/vertex-ai/matching-engine/indexes?project=" + project + " to see the progress of creating index. It should take about 1.5 hours to create index.")
 	fmt.Println("After creating the index, run this program again and proceed to 2. Deploy Index to Index Endpoint.")
 }
